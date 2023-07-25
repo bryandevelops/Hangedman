@@ -5,7 +5,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Project</title>
 		<link rel="stylesheet" href="styles/style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
 		<script defer src="scripts/app.js"></script>
+		<script src="https://kit.fontawesome.com/d377311c2d.js" crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<main>
@@ -13,16 +17,62 @@
 				<div id="canvas-container">
 					<canvas id="hangman" width="250" height="250"></canvas>
 				</div>
-				<ul id="secret-word">
+				<ul id="secret-word-container">
+					<li class="guess">H</li>
+					<li class="guess">A</li>
+					<li class="guess">N</li>
+					<li class="guess">G</li>
+					<li class="guess">M</li>
+					<li class="guess">A</li>
+					<li class="guess">N</li>
 				</ul>
 				<button id="start-game-btn">Start Game</button>
 			</section>
-			<section id="section-2">
-				<!-- Keyboard -->
+			<section id="section-2" class="hidden">
+				<ul id="letter-container-1" class="letter-container">
+					<li class="letters">A</li>
+					<li class="letters correct">B</li>
+					<li class="letters">C</li>
+					<li class="letters">D</li>
+					<li class="letters">E</li>
+					<li class="letters">F</li>
+					<li class="letters">G</li>
+					<li class="letters">H</li>
+					<li class="letters">I</li>
+					<li class="letters">J</li>
+				</ul>
+				<ul id="letter-container-2" class="letter-container">
+					<li class="letters">K</li>
+					<li class="letters">L</li>
+					<li class="letters">M</li>
+					<li class="letters">N</li>
+					<li class="letters">O</li>
+					<li class="letters">P</li>
+					<li class="letters">Q</li>
+					<li class="letters">R</li>
+					<li class="letters">S</li>
+					<li class="letters">T</li>
+				</ul>
+				<ul id="letter-container-3" class="letter-container">
+					<li class="letters">U</li>
+					<li class="letters">V</li>
+					<li class="letters">W</li>
+					<li class="letters incorrect">X</li>
+					<li class="letters">Y</li>
+					<li class="letters">Z</li>
+				</ul>
 			</section>
+			<footer>
+				<p>&copy; 2023 Copyright | Bryan Santos</p>
+				<div id="icons">
+					<a href="https://www.github.com/bryandevelops" target="_blank">
+						<i class="fa-brands fa-github-square fa-2xl"></i>
+					</a>
+					<a href="https://www.linkedin.com/in/bryandevelops" target="_blank">
+						<i class="fa-brands fa-linkedin fa-2xl"></i>
+					</a>
+				</div>
+			</footer>
 		</main>
-		<footer>
-			<!-- Personal Info -->
-		</footer>
 	</body>
 </html>
