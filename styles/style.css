@@ -33,7 +33,9 @@ body {
 
 .guess {
 	width: 0.8em;
+	height: 72px;
 }
+
 .guess, .letters {
 	padding: 15px;
 	margin: 0 5px;
@@ -186,4 +188,11 @@ p {
 a, a:link, a:visited {
 	color: black;
 	margin: 0 7px;
+}
+
+#new-game-btn {
+	position: absolute;
+	font-size: 1em;
+	top: 1em;
+	right: 1em;
 }
