@@ -18,7 +18,6 @@ body {
 
 #canvas-container {
 	background-color: gray;
-	/* text-align: center; */
 }
 
 #hangman {
@@ -61,7 +60,6 @@ body {
 	--border: 2px;
 	--slant: 0.5em;
 	--color: #021313;
-
 	width: 1.2em;
 	font-size: 30px;
 	padding: 0.4em 0.4em;
@@ -87,12 +85,10 @@ button {
 	--border: 2px;
 	--slant: 0.4em;
 	--color: #021313;
-
 	font-size: 35px;
 	padding: 0.4em 1.2em;
 	border: none;
 	cursor: pointer;
-	/* font-weight: bold; */
 	color: var(--color);
 	background:
 		linear-gradient(to bottom left, var(--color) 50%, #0000 50.1%) top right,
@@ -117,9 +113,9 @@ button:focus-visible, .letters:focus-visible {
 
 button:hover,
 button:active, .letters:hover, .letters:active {
+	--t: 0.2s 0.1s;
 	background-size: 100% 100%;
 	color: #fff;
-	--t: 0.2s 0.1s;
 }
 
 button:active, .letters:active {
@@ -133,7 +129,7 @@ button:active, .letters:active {
 
 .correct {
 	--color: rgb(105, 219, 58, 0);
-
+	--t: 0.2s 0.1s;
 	background:
 		linear-gradient(to bottom left, var(--color) 50%, #0000 50.1%) top right,
 		linear-gradient(to top right, var(--color) 50%, #0000 50.1%) bottom left;
@@ -141,20 +137,18 @@ button:active, .letters:active {
 	background-color:rgb(105, 219, 58, 0.5);
 	color: #fff;
 	cursor: default;
-	--t: 0.2s 0.1s;
 }
 
 .incorrect {
 	--color: rgb(243, 115, 138, 0);
-
+	--t: 0.2s 0.1s;
 	background:
 		linear-gradient(to bottom left, var(--color) 50%, #0000 50.1%) top right,
 		linear-gradient(to top right, var(--color) 50%, #0000 50.1%) bottom left;
 	background-size: 100% 100%;
-	background-color: rgb(243, 115, 138, 0.5);
+	background-color: rgba(243, 115, 138, 0.5);
 	color: #fff;
 	cursor: default;
-	--t: 0.2s 0.1s;
 }
 
 .correct:active, .incorrect:active {
@@ -171,12 +165,11 @@ main {
 
 footer {
 	display: flex;
-	/* justify-content: center; */
 	flex-direction: column;
 	align-items: center;
 }
 
-p {
+#footer-info {
 	font-size: 12px;
 	margin-bottom: 15px;
 }
@@ -187,12 +180,131 @@ p {
 
 a, a:link, a:visited {
 	color: black;
+	text-decoration-line: none;
 	margin: 0 7px;
 }
 
-#new-game-btn {
+#reset-btn {
 	position: absolute;
 	font-size: 1em;
 	top: 1em;
 	right: 1em;
+}
+
+.modal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 70%;
+	background-color: white;
+	padding: 6rem;
+	border-radius: 5px;
+	box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+	z-index: 10;
+}
+
+.close-modal {
+	position: absolute;
+	top: 1.2rem;
+	right: 2rem;
+	font-size: 3rem;
+	color: #333;
+	cursor: pointer;
+	border: none;
+	background: none;
+	box-shadow: none;
+	padding: 0;
+}
+
+.close-modal:hover {
+	color:#727070;
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	backdrop-filter: blur(3px);
+	z-index: 5;
+}
+
+#modal-title-container {
+	display: flex;
+	list-style: none;
+}
+
+.modal-title {
+	font-size: larger;
+	font-family: 'Reem Kufi Ink', sans-serif;
+	border-bottom: solid 2px black;
+	margin: 0 5px;
+}
+
+.bullet {
+	border-bottom: none;
+}
+
+.modal-rules {
+	font-size: 1.3rem;
+	margin: 40px 0;
+	text-align: left;
+	font-family: sans-serif;
+}
+
+#confirm-btn {
+	font-size: 1.2rem;
+}
+
+.win {
+	--t: 0.2s 0.1s;
+	animation: win 4s linear infinite;
+	animation-delay: calc(75ms * var(--i));
+}
+
+.win {
+	--t: 0.2s 0.1s;
+	animation: win 4s linear infinite;
+	animation-delay: calc(75ms * var(--i));
+}
+
+.lose {
+	--t: 0.2s 0.1s;
+	animation: lose 4s linear infinite;
+	animation-delay: calc(75ms * var(--i));
+}
+
+@keyframes win {
+	0%,
+	100% {
+		filter: blur(1px);
+		text-shadow: 0 0 10px #69db3a80, 0 0 20px #69db3a80, 0 0 30px #69db3a80,
+			0 0 40px #69db3a80, 0 0 60px #69db3a80, 0 0 80px #69db3a80, 0 0 100px #69db3a80,
+			0 0 120px #69db3a80;
+	}
+
+	5%,
+	95% {
+		filter: blur(0);
+		text-shadow: none;
+	}
+}
+
+@keyframes lose {
+	0%,
+	100% {
+		filter: blur(1px);
+		text-shadow: 0 0 10px #f3738a80, 0 0 20px #f3738a80, 0 0 30px #f3738a80,
+			0 0 40px #f3738a80, 0 0 60px #f3738a80, 0 0 80px #f3738a80, 0 0 100px #f3738a80,
+			0 0 120px #f3738a80;
+	}
+
+	5%,
+	95% {
+		filter: blur(0);
+		text-shadow: none;
+	}
 }
