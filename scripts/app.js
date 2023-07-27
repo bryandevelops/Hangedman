@@ -2,11 +2,21 @@
 // VARIABLES //
 ///////////////
 
-let secretWord;
+const bodyParts = [
+	'gallows', 
+	'head', 
+	'body', 
+	'rightArm', 
+	'leftArm',
+	'rightLeg',
+	'leftLeg',
+	'rightFoot',
+	'leftFoot',
+];
+let step = 1;
 let remainingGuesses = 8;
 let guessedLetters = [];
-
-
+let secretWord;
 
 ///////////////
 // FUNCTIONS //
@@ -25,26 +35,70 @@ function generateSecretWord() {
 	})
 }
 
-function removeAllChildNodes(parent) {
-	while (parent.firstElementChild) {
-		parent.removeChild(parent.firstElementChild)
+function init() {
+	clearCanvas()
+	drawBodyPart('gallows')
+	removeAllChildNodes(secretWordContainer)
+	
+	for (let idx in secretWord) {
+		const li = document.createElement('li');
+		li.textContent = '';
+		li.classList.add('guess', `guess-${idx}`)
+		li.setAttribute('style', `--i:${Number(idx)+1}`)
+		secretWordContainer.appendChild(li)
 	}
+	
+	section2Ele.classList.toggle('hidden')
+	startGameBtn.classList.toggle('hidden')
+	footerEle.classList.toggle('hidden')
+	resetGameBtn.classList.toggle('hidden')
+	closeModal()
 }
 
-function removeWordDefinitionLink(link) {
-	canvasContainer.insertAdjacentElement('afterend', secretWordContainer)
-	link.remove()
-}
+function reset() {
+	const wordDefinitionLink = document.getElementById('word-definition-link');
 
-function setAttributes(ele, attrs) {
-  for (let key in attrs) {
-    ele.setAttribute(key, attrs[key])
-  }
+	generateSecretWord()
+	clearCanvas()
+	drawBodyPart('gallows')
+	drawBodyPart('head')
+	drawBodyPart('body')
+	drawBodyPart('rightArm')
+	drawBodyPart('leftArm')
+	drawBodyPart('rightLeg')
+	drawBodyPart('leftLeg')
+	drawBodyPart('rightFoot')
+	drawBodyPart('leftFoot')
+	removeAllChildNodes(secretWordContainer)
+
+	if (wordDefinitionLink) removeWordDefinitionLink(wordDefinitionLink)
+	
+	for (let char of 'HANGMAN') {
+		const li = document.createElement('li');
+		li.textContent = char;
+		li.classList.add('guess')
+		secretWordContainer.appendChild(li)
+	}
+
+	document.querySelectorAll('.correct').forEach(li => li.classList.remove('correct'))
+	document.querySelectorAll('.incorrect').forEach(li => li.classList.remove('incorrect'))
+
+	bodyEle.style.backgroundColor = 'rgb(241, 236, 206, 0.2)';
+	section2Ele.style.pointerEvents = 'inherit';
+	section2Ele.classList.toggle('hidden')
+	startGameBtn.classList.toggle('hidden')
+	resetGameBtn.classList.toggle('hidden')
+	footerEle.classList.toggle('hidden')
+
+	remainingGuesses = 8;
+	guessedLetters = [];
+	step = 1;
 }
 
 function checkWinOrLose() {
 	const allGuesses = document.querySelectorAll('.guess');
 	let guessedWord = '';
+
 	allGuesses.forEach(guessNode => guessedWord += guessNode.textContent)
 	
 	if (secretWord === guessedWord) {
@@ -85,54 +139,99 @@ function checkWinOrLose() {
 	}
 }
 
-function init() {
-	removeAllChildNodes(secretWordContainer)
-	
-	for (let idx in secretWord) {
-		const li = document.createElement('li');
-		li.textContent = '';
-		li.classList.add('guess', `guess-${idx}`)
-		li.setAttribute('style', `--i:${Number(idx)+1}`)
-		secretWordContainer.appendChild(li)
-	}
+function drawBodyPart(bodyPart) {
+	switch (bodyPart) {
+		case 'gallows':
+			context.strokeStyle = '#444';
+			context.lineWidth = 10; 
+			context.beginPath()
+			context.moveTo(175, 225)
+			context.lineTo(5, 225)
+			context.moveTo(40, 225)
+			context.lineTo(25, 5)
+			context.lineTo(100, 5)
+			context.lineTo(100, 25)
+			context.stroke()
+			break;
 
-	// Initial hangman drawing
-	
-	section2Ele.classList.toggle('hidden')
-	startGameBtn.classList.toggle('hidden')
-	footerEle.classList.toggle('hidden')
-	resetGameBtn.classList.toggle('hidden')
-	closeModal()
+		case 'head':
+			context.lineWidth = 5;
+			context.beginPath()
+			context.arc(100, 50, 25, 0, Math.PI*2, true)
+			context.closePath()
+			context.stroke()
+			break;
+		
+		case 'body':
+			context.beginPath()
+			context.moveTo(100, 75)
+			context.lineTo(100, 140)
+			context.stroke()
+			break;
+
+		case 'rightArm':
+			context.beginPath()
+			context.moveTo(100, 85)
+			context.lineTo(60, 100)
+			context.stroke()
+			break;
+
+		case 'leftArm':
+			context.beginPath()
+			context.moveTo(100, 85)
+			context.lineTo(140, 100)
+			context.stroke()
+			break;
+
+		case 'rightLeg':
+			context.beginPath()
+			context.moveTo(100, 140)
+			context.lineTo(80, 190)
+			context.stroke()
+			break;
+
+		case 'leftLeg':
+			context.beginPath()
+			context.moveTo(100, 140)
+			context.lineTo(125, 190)
+			context.stroke()
+			break;
+
+		case 'rightFoot':
+			context.beginPath()
+			context.moveTo(82, 190)
+			context.lineTo(70, 185)
+			context.stroke()
+			break;
+
+		case 'leftFoot':
+			context.beginPath()
+			context.moveTo(122, 190)
+			context.lineTo(135, 185)
+			context.stroke()
+			break;
+	}
 }
 
-function reset() {
-	const wordDefinitionLink = document.getElementById('word-definition-link');
+function clearCanvas() {
+  context.clearRect(0, 0, canvas.width, canvas.height)
+}
 
-	generateSecretWord()
-	removeAllChildNodes(secretWordContainer)
-	if (wordDefinitionLink) removeWordDefinitionLink(wordDefinitionLink)
-	
-	for (let char of 'HANGMAN') {
-		const li = document.createElement('li');
-		li.textContent = char;
-		li.classList.add('guess')
-		secretWordContainer.appendChild(li)
+function removeAllChildNodes(parent) {
+	while (parent.firstElementChild) {
+		parent.removeChild(parent.firstElementChild)
 	}
+}
 
-	// Reset hangman drawing
+function setAttributes(ele, attrs) {
+	for (let key in attrs) {
+		ele.setAttribute(key, attrs[key])
+  }
+}
 
-	document.querySelectorAll('.correct').forEach(li => li.classList.remove('correct'))
-	document.querySelectorAll('.incorrect').forEach(li => li.classList.remove('incorrect'))
-
-	bodyEle.style.backgroundColor = 'rgb(241, 236, 206, 0.2)';
-	section2Ele.style.pointerEvents = 'inherit';
-	section2Ele.classList.toggle('hidden')
-	startGameBtn.classList.toggle('hidden')
-	resetGameBtn.classList.toggle('hidden')
-	footerEle.classList.toggle('hidden')
-
-	remainingGuesses = 8;
-	guessedLetters = [];
+function removeWordDefinitionLink(link) {
+	canvasContainer.insertAdjacentElement('afterend', secretWordContainer)
+	link.remove()
 }
 
 function openModal(e) {
@@ -146,13 +245,10 @@ function closeModal() {
   overlay.classList.add("hidden")
 }
 
-
-
 //////////////////////
 // DOM MANIPULATION //
 //////////////////////
 
-let temp; // temporary
 const startGameBtn = document.getElementById('start-game-btn');
 const resetGameBtn = document.getElementById('reset-btn');
 const modalCloseBtn = document.querySelector(".close-modal");
@@ -165,22 +261,33 @@ const secretWordContainer = document.getElementById('secret-word-container');
 const letterContainers = document.querySelectorAll('.letter-container');
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
+const canvas = document.getElementById('hangman');
+const context = canvas.getContext("2d");
 
 window.addEventListener('load', () => {
 	generateSecretWord() // for now; difficulty would need to be selected first
+	drawBodyPart('gallows')
+	drawBodyPart('head')
+	drawBodyPart('body')
+	drawBodyPart('rightArm')
+	drawBodyPart('leftArm')
+	drawBodyPart('rightLeg')
+	drawBodyPart('leftLeg')
+	drawBodyPart('rightFoot')
+	drawBodyPart('leftFoot')
 })
 
 document.addEventListener("keydown", event => {if (event.key === "Escape") closeModal()})
 
-modalCloseBtn.addEventListener("click", closeModal)
-
-overlay.addEventListener("click", closeModal)
-
 startGameBtn.addEventListener('click', openModal)
+
+confirmBtn.addEventListener('click', init)
 
 resetGameBtn.addEventListener('click', openModal)
 
-confirmBtn.addEventListener('click', init)
+modalCloseBtn.addEventListener("click", closeModal)
+
+overlay.addEventListener("click", closeModal)
 
 letterContainers.forEach( container => container.addEventListener('click', function(e) {
 	if (e.target.localName === 'li') {
@@ -196,6 +303,7 @@ letterContainers.forEach( container => container.addEventListener('click', funct
 			remainingGuesses--
 			e.target.classList.add('incorrect')
 			guessedLetters.push(guessedLetter)
+			drawBodyPart(bodyParts[step++])
 			checkWinOrLose()
 		}
 		console.log(remainingGuesses, guessedLetters); // temporary
@@ -204,141 +312,12 @@ letterContainers.forEach( container => container.addEventListener('click', funct
 
 
 
-/////////////////////
-// HANGMAN DRAWING //
-/////////////////////
-
-
-// const canvas = document.getElementById('hangman');
-// const context = canvas.getContext("2d");
-
-// clearCanvas = () => {
-//   context.clearRect(0, 0, canvas.width, canvas.height)
-// }
-
-// Draw = (part) => {
-//    switch (part) {
-//       case 'gallows' :
-//         context.strokeStyle = '#444';
-//         context.lineWidth = 10; 
-//         context.beginPath();
-//         context.moveTo(175, 225);
-//         context.lineTo(5, 225);
-//         context.moveTo(40, 225);
-//         context.lineTo(25, 5);
-//         context.lineTo(100, 5);
-//         context.lineTo(100, 25);
-//         context.stroke();
-//         break;
-
-//       case 'head':
-//         context.lineWidth = 5;
-//         context.beginPath();
-//         context.arc(100, 50, 25, 0, Math.PI*2, true);
-//         context.closePath();
-//         context.stroke();
-//         break;
-      
-//       case 'body':
-//         context.beginPath();
-//         context.moveTo(100, 75);
-//         context.lineTo(100, 140);
-//         context.stroke();
-//         break;
-
-//       case 'rightHarm':
-//         context.beginPath();
-//         context.moveTo(100, 85);
-//         context.lineTo(60, 100);
-//         context.stroke();
-//         break;
-
-//       case 'leftHarm':
-//         context.beginPath();
-//         context.moveTo(100, 85);
-//         context.lineTo(140, 100);
-//         context.stroke();
-//         break;
-
-//       case 'rightLeg':
-//         context.beginPath();
-//         context.moveTo(100, 140);
-//         context.lineTo(80, 190);
-//         context.stroke();
-//         break;
-
-//       case 'rightFoot':
-//          context.beginPath();
-//          context.moveTo(82, 190);
-//          context.lineTo(70, 185);
-//          context.stroke();
-//       break;
-
-//       case 'leftLeg':
-//         context.beginPath();
-//         context.moveTo(100, 140);
-//         context.lineTo(125, 190);
-//         context.stroke();
-//       break;
-
-//       case 'leftFoot':
-//          context.beginPath();
-//          context.moveTo(122, 190);
-//          context.lineTo(135, 185);
-//          context.stroke();
-//       break;
-//    } 
-// }
-
-// const draws = [
-//    'gallows', 
-//    'head', 
-//    'body', 
-//    'rightHarm', 
-//    'leftHarm',
-//    'rightLeg',
-//    'leftLeg',
-//    'rightFoot',
-//    'leftFoot',
-// ]
-// var step = 0;
-
-
-// const next = document.getElementById('next')
-
-// next.addEventListener('click', function() {
-//   Draw(draws[step++])
-//   if (undefined === draws[step]) this.disabled = true;
-// });
-
-// document.getElementById('reset').addEventListener('click', function() {
-//   clearCanvas()
-//   step = 0
-//   next.disabled = false
-// })
-
-
-
 /* To Do:
-- Begin implementing the HTML canvas drawing of the Hangman
-
-- Start building out the logic for the event listeners that will be attached to each 
-of the letter containers. Make sure event delegation is working as intended
-
-- The startGameBtn listener will need to be updated so that it creates the secret word,
-but the textContent of each new li element doesnt show the char. The char should
-only be revealed after a correct guess
-
-- For the difficulty modes, that should be handled by a Modal window. Refer to previous
-projects and notes for building out the Modal
+- Difficulty Modes
 */
 
 /* Feature Ideas:
 - Difficulty Modes:
 	The harder the difficulty, the longer the words become
 	Note: 'electroencephalographically' is longest word I found (27 chars long)
-
-- Link to secret words Dictionary.com definition:
-	On win or lose, display a hyperlink to the words definition
-	Note: https://www.dictionary.com/browse/${word}
 */
