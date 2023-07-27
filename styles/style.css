@@ -202,6 +202,13 @@ a, a:link, a:visited {
 	border-radius: 5px;
 	box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
 	z-index: 10;
+	/* 
+	May need these styles when incorporating difficulty feature
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	*/
 }
 
 .close-modal {
