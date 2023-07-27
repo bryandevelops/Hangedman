@@ -4,7 +4,8 @@
 
 let secretWord;
 let remainingGuesses = 8;
-const guessedLetters = [];
+let guessedLetters = [];
+
 
 
 ///////////////
@@ -12,22 +13,33 @@ const guessedLetters = [];
 ///////////////
 
 function generateSecretWord() {
-	let wordFile = 'words-alpha.txt'
+	let wordFile = 'words-alpha.txt';
 
 	return fetch(wordFile)
 	.then((response) => response.text())
 	.then((text) => {
 		const wordArr = text.split('\r\n');
-		const randNum = Math.trunc(Math.random() * wordArr.length)
-		secretWord = wordArr[randNum].toUpperCase()
+		const randNum = Math.trunc(Math.random() * wordArr.length);
+		secretWord = wordArr[randNum].toUpperCase();
 		console.log(secretWord); // temporary
 	})
 }
 
 function removeAllChildNodes(parent) {
 	while (parent.firstElementChild) {
-		parent.removeChild(parent.firstElementChild);
+		parent.removeChild(parent.firstElementChild)
 	}
+}
+
+function removeWordDefinitionLink(link) {
+	canvasContainer.insertAdjacentElement('afterend', secretWordContainer)
+	link.remove()
+}
+
+function setAttributes(ele, attrs) {
+  for (let key in attrs) {
+    ele.setAttribute(key, attrs[key])
+  }
 }
 
 function checkWinOrLose() {
@@ -36,21 +48,102 @@ function checkWinOrLose() {
 	allGuesses.forEach(guessNode => guessedWord += guessNode.textContent)
 	
 	if (secretWord === guessedWord) {
-		// Handle win
-		console.log('you win :)');
-		document.querySelector('body').style.backgroundColor = 'rgb(105, 219, 58, 0.1)';
-		// Make the secret word letters and bottom border have a white glow
-		// Add a link to the words dictionary definition (https://www.dictionary.com/browse/${word})
-	} else if (remainingGuesses === 0) {
-		// Handle lose
-		console.log('you lose :(')
-		document.querySelector('body').style.backgroundColor = 'rgb(243, 115, 138, 0.1)';
-		// Add a link to the words dictionary definition (https://www.dictionary.com/browse/${word})
+		bodyEle.style.backgroundColor = 'rgb(105, 219, 58, 0.05)';
+		section2Ele.style.pointerEvents = 'none';
+
+		allGuesses.forEach(guessNode => guessNode.classList.add('win'))
+
+		const wordLink = document.createElement('a');
+		wordLink.appendChild(secretWordContainer)
+		setAttributes(wordLink, {
+			'href': `https://www.merriam-webster.com/dictionary/${secretWord}`,
+			'target': '_blank',
+			'id': 'word-definition-link',
+		})
+		canvasContainer.insertAdjacentElement('afterend', wordLink)
+	} else if (remainingGuesses <= 0) {
+		bodyEle.style.backgroundColor = 'rgb(243, 115, 138, 0.05)';
+		section2Ele.style.pointerEvents = 'none';
+
+		for (idx in secretWord) {
+			if (!guessedLetters.includes(secretWord[idx])) {
+				document.querySelector(`.guess-${idx}`).textContent = secretWord[idx];
+				document.querySelector(`.guess-${idx}`).style.color = 'red';
+			}
+		}
+
+		allGuesses.forEach(guessNode => guessNode.classList.add('lose'))
+		
+		const wordLink = document.createElement('a');
+		wordLink.appendChild(secretWordContainer)
+		setAttributes(wordLink, {
+			'href': `https://www.merriam-webster.com/dictionary/${secretWord}`,
+			'target': '_blank',
+			'id': 'word-definition-link',
+		})
+		canvasContainer.insertAdjacentElement('afterend', wordLink)
 	}
 }
 
+function init() {
+	removeAllChildNodes(secretWordContainer)
+	
+	for (let idx in secretWord) {
+		const li = document.createElement('li');
+		li.textContent = '';
+		li.classList.add('guess', `guess-${idx}`)
+		li.setAttribute('style', `--i:${Number(idx)+1}`)
+		secretWordContainer.appendChild(li)
+	}
+
+	// Initial hangman drawing
+	
+	section2Ele.classList.toggle('hidden')
+	startGameBtn.classList.toggle('hidden')
+	footerEle.classList.toggle('hidden')
+	resetGameBtn.classList.toggle('hidden')
+	closeModal()
+}
+
 function reset() {
-	// Reset
+	const wordDefinitionLink = document.getElementById('word-definition-link');
+
+	generateSecretWord()
+	removeAllChildNodes(secretWordContainer)
+	if (wordDefinitionLink) removeWordDefinitionLink(wordDefinitionLink)
+	
+	for (let char of 'HANGMAN') {
+		const li = document.createElement('li');
+		li.textContent = char;
+		li.classList.add('guess')
+		secretWordContainer.appendChild(li)
+	}
+
+	// Reset hangman drawing
+
+	document.querySelectorAll('.correct').forEach(li => li.classList.remove('correct'))
+	document.querySelectorAll('.incorrect').forEach(li => li.classList.remove('incorrect'))
+
+	bodyEle.style.backgroundColor = 'rgb(241, 236, 206, 0.2)';
+	section2Ele.style.pointerEvents = 'inherit';
+	section2Ele.classList.toggle('hidden')
+	startGameBtn.classList.toggle('hidden')
+	resetGameBtn.classList.toggle('hidden')
+	footerEle.classList.toggle('hidden')
+
+	remainingGuesses = 8;
+	guessedLetters = [];
+}
+
+function openModal(e) {
+  modal.classList.remove("hidden")
+  overlay.classList.remove("hidden")
+	if (e.target.textContent === 'New Game') reset()
+}
+
+function closeModal() {
+  modal.classList.add("hidden")
+  overlay.classList.add("hidden")
 }
 
 
@@ -61,32 +154,33 @@ function reset() {
 
 let temp; // temporary
 const startGameBtn = document.getElementById('start-game-btn');
-const newGameBtn = document.getElementById('new-game-btn');
+const resetGameBtn = document.getElementById('reset-btn');
+const modalCloseBtn = document.querySelector(".close-modal");
+const confirmBtn = document.getElementById('confirm-btn');
+const bodyEle = document.querySelector('body');
 const section2Ele = document.getElementById('section-2');
+const footerEle = document.querySelector('footer');
+const canvasContainer = document.getElementById('canvas-container');
+const secretWordContainer = document.getElementById('secret-word-container');
 const letterContainers = document.querySelectorAll('.letter-container');
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
 
 window.addEventListener('load', () => {
-	generateSecretWord(); // for now; difficulty would need to be selected first
+	generateSecretWord() // for now; difficulty would need to be selected first
 })
 
-startGameBtn.addEventListener('click', () => {
-	const ul = document.getElementById('secret-word-container');
-	removeAllChildNodes(ul);
+document.addEventListener("keydown", event => {if (event.key === "Escape") closeModal()})
 
-	// Initial hangman drawing
-	
-	for (let idx in secretWord) {
-		const li = document.createElement('li');
-		li.textContent = '';
-		li.classList.add('guess', `guess-${idx}`);
-		ul.appendChild(li);
-	}
+modalCloseBtn.addEventListener("click", closeModal)
 
-	section2Ele.classList.toggle('hidden');
-	startGameBtn.classList.toggle('hidden');
-	newGameBtn.classList.toggle('hidden');
-	document.querySelector('footer').classList.toggle('hidden');
-})
+overlay.addEventListener("click", closeModal)
+
+startGameBtn.addEventListener('click', openModal)
+
+resetGameBtn.addEventListener('click', openModal)
+
+confirmBtn.addEventListener('click', init)
 
 letterContainers.forEach( container => container.addEventListener('click', function(e) {
 	if (e.target.localName === 'li') {
@@ -95,18 +189,18 @@ letterContainers.forEach( container => container.addEventListener('click', funct
 			for (idx in secretWord) {
 				if (secretWord[idx] === guessedLetter) document.querySelector(`.guess-${idx}`).textContent = guessedLetter;
 			}
-			e.target.classList.add('correct');
-			guessedLetters.push(guessedLetter);
-			checkWinOrLose();
+			e.target.classList.add('correct')
+			guessedLetters.push(guessedLetter)
+			checkWinOrLose()
 		} else if (!secretWord.includes(guessedLetter) && !guessedLetters.includes(guessedLetter)) {
-			remainingGuesses--;
-			e.target.classList.add('incorrect');
-			guessedLetters.push(guessedLetter);
-			checkWinOrLose();
+			remainingGuesses--
+			e.target.classList.add('incorrect')
+			guessedLetters.push(guessedLetter)
+			checkWinOrLose()
 		}
 		console.log(remainingGuesses, guessedLetters); // temporary
 	}
-}))
+}));
 
 
 
