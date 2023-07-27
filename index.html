@@ -12,7 +12,7 @@
 		<script src="https://kit.fontawesome.com/d377311c2d.js" crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<button id="new-game-btn" class="hidden">New Game</button>
+		<button id="reset-btn" class="hidden">New Game</button>
 		<main>
 			<section id="section-1">
 				<div id="canvas-container">
@@ -64,7 +64,7 @@
 				</ul>
 			</section>
 			<footer>
-				<p>&copy; 2023 Copyright | Bryan Santos</p>
+				<p id="footer-info">&copy; 2023 Copyright | Bryan Santos</p>
 				<div id="icons">
 					<a href="https://www.github.com/bryandevelops" target="_blank">
 						<i class="fa-brands fa-github-square fa-2xl"></i>
@@ -75,5 +75,47 @@
 				</div>
 			</footer>
 		</main>
+		<div class="modal hidden">
+			<button class="close-modal">&times;</button>
+			<ul id="modal-title-container">
+				<li class="modal-title">G</li>
+				<li class="modal-title">U</li>
+				<li class="modal-title">E</li>
+				<li class="modal-title">S</li>
+				<li class="modal-title">S</li>
+				<li class="modal-title bullet">•</li>
+				<li class="modal-title">T</li>
+				<li class="modal-title">H</li>
+				<li class="modal-title">E</li>
+				<li class="modal-title bullet">•</li>
+				<li class="modal-title">S</li>
+				<li class="modal-title">E</li>
+				<li class="modal-title">C</li>
+				<li class="modal-title">R</li>
+				<li class="modal-title">E</li>
+				<li class="modal-title">T</li>
+				<li class="modal-title bullet">•</li>
+				<li class="modal-title">W</li>
+				<li class="modal-title">O</li>
+				<li class="modal-title">R</li>
+				<li class="modal-title">D</li>
+			</ul>
+			<p class="modal-rules">
+				At the start of the game, a secret word will be created. As the player,
+				you will have to try to guess the secret word by guessing letters. Click
+				on the letters to make a guess, but beware, each incorrect guess will bring
+				you closer to being "hanged" 😵
+			</p>
+			<p class="modal-rules">
+				After a game, whether you guessed 
+				<span class="win" style="--i:1">c</span><!----><span class="win" style="--i:2">o</span><!----><span class="win" style="--i:3">r</span><!----><span class="win" style="--i:4">r</span><!----><span class="win" style="--i:5">e</span><!----><span class="win" style="--i:6">c</span><!----><span class="win" style="--i:7">t</span><!----><span class="win" style="--i:8">l</span><!----><span class="win" style="--i:9">y</span>
+				or 
+				<span class="lose" style="--i:1">i</span><!----><span class="lose" style="--i:2">n</span><!----><span class="lose" style="--i:3">c</span><!----><span class="lose" style="--i:4">o</span><!----><span class="lose" style="--i:5">r</span><!----><span class="lose" style="--i:6">r</span><!----><span class="lose" style="--i:7">e</span><!----><span class="lose" style="--i:8">c</span><!----><span class="lose" style="--i:9">t</span><!----><span class="lose" style="--i:10">l</span><!----><span class="lose" style="--i:11">y</span>,
+				click on the word to be taken to the word's dictionary 
+				definition. Learn some new words and have fun 😄
+			</p>
+			<button id="confirm-btn">Confirm</button>
+		</div>
+		<div class="overlay hidden"></div>
 	</body>
 </html>
