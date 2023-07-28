@@ -54,3 +54,11 @@ Here is a quick demonstration of the game in action:
 ## Play Game
 
 [Give it a try!](https://bryandevelops.github.io/Hangman/)
+
+## Resources
+
+- Hangman Canvas: https://codepen.io/xavier_bs/pen/MMNGyG
+- CSS Background Pattern: https://heropatterns.com/
+- English Words: https://github.com/dwyl/english-words
+- Cut Corner Buttons: https://codepen.io/t_afif/pen/bGooZmq
+- Transitioning Glow On Text: https://unused-css.com/blog/css-outer-glow/
