@@ -1,7 +1,7 @@
 # [Hangman](https://bryandevelops.github.io/Hangman/)
 
 #### Description
-**Hangman** is a simple guessing game played in the browser where players are tasked with guessing letters to form a secret word. The object of Hangman is to guess the secret word before the stick figure is hung. The player takes turns selecting letters to narrow the word down.
+**Hangman** is a guessing game played in the browser where players are tasked with guessing letters to form a secret word. The object of Hangman is to guess the secret word before the stick figure is hung. The player takes turns selecting letters to narrow the word down.
 
 ## Rules
 - The player clicks 'Start Game' followed by 'Confirm' to initiate a new game
