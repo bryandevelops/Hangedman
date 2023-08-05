@@ -249,6 +249,8 @@ a, a:link, a:visited {
 	font-family: 'Reem Kufi Ink', sans-serif;
 	border-bottom: solid 2px black;
 	margin: 0 5px;
+	width: 15px;
+	text-align: center;
 }
 
 .bullet {
@@ -257,9 +259,13 @@ a, a:link, a:visited {
 
 .modal-rules {
 	font-size: 1.3rem;
-	margin: 40px 0;
+	margin: 30px 0;
 	text-align: left;
 	font-family: sans-serif;
+}
+
+.difficulty-label {
+	font-size: 1rem;
 }
 
 #confirm-btn {
