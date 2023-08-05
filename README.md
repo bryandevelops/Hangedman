@@ -44,11 +44,15 @@ Here is a quick demonstration of the game in action:
 
 ![Game Start Image](assets/game-start.png)
 
-2. ###### Game Win
+2. ###### Game Setup
+
+![Game Setup Image](assets/game-setup.png)
+
+3. ###### Game Win
 
 ![Game Win Image](assets/game-win.png)
 
-3. ###### Game Lose
+4. ###### Game Lose
 
 ![Game Lose Image](assets/game-lose.png)
 
