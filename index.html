@@ -16,7 +16,7 @@
 		<main>
 			<section id="section-1">
 				<div id="canvas-container">
-					<canvas id="hangman" width="250" height="250"></canvas>
+					<canvas id="hangman" width="180" height="250"></canvas>
 				</div>
 				<ul id="secret-word-container">
 					<li class="guess">H</li>
@@ -114,6 +114,48 @@
 				click on the word to be taken to the word's dictionary 
 				definition. Learn some new words and have fun 😄
 			</p>
+			<ul id="modal-title-container">
+				<li class="modal-title">C</li>
+				<li class="modal-title">H</li>
+				<li class="modal-title">O</li>
+				<li class="modal-title">O</li>
+				<li class="modal-title">S</li>
+				<li class="modal-title">E</li>
+				<li class="modal-title bullet">•</li>
+				<li class="modal-title">W</li>
+				<li class="modal-title">O</li>
+				<li class="modal-title">R</li>
+				<li class="modal-title">D</li>
+				<li class="modal-title bullet">•</li>
+				<li class="modal-title">D</li>
+				<li class="modal-title">I</li>
+				<li class="modal-title">F</li>
+				<li class="modal-title">F</li>
+				<li class="modal-title">I</li>
+				<li class="modal-title">C</li>
+				<li class="modal-title">U</li>
+				<li class="modal-title">L</li>
+				<li class="modal-title">T</li>
+				<li class="modal-title">Y</li>
+			</ul>
+			<div class="modal-rules">
+				<div>
+					<input type="radio" name="difficulty" id="Random" checked>
+					<label class="difficulty-label" for="Random">Random</label>
+				</div>
+				<div>
+					<input type="radio" name="difficulty" id="Easy" >
+					<label class="difficulty-label" for="Easy">Easy (Number of Letters 1~6)</label>
+				</div>
+				<div>
+					<input type="radio" name="difficulty" id="Moderate">
+					<label class="difficulty-label" for="Moderate">Moderate (Number of Letters 7~12)</label>
+				</div>
+				<div>
+					<input type="radio" name="difficulty" id="Hard">
+					<label class="difficulty-label" for="Hard">Hard (Number of Letters 13+)</label>
+				</div>
+			</div>
 			<button id="confirm-btn">Confirm</button>
 		</div>
 		<div class="overlay hidden"></div>
