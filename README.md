@@ -4,7 +4,8 @@
 **Hangman** is a guessing game played in the browser where players are tasked with guessing letters to form a secret word. The object of Hangman is to guess the secret word before the stick figure is hung. The player takes turns selecting letters to narrow the word down.
 
 ## Rules
-- The player clicks 'Start Game' followed by 'Confirm' to initiate a new game
+- The player clicks 'Start Game' and selects a difficulty
+- The player clicks 'Confirm' to initiate a new game
 - The player clicks on a letter on the visual keyboard to guess a letter
 - If the guessed letter is in the word,
   - the blank spaces of the secret word are filled with the guessed letter at the corresponding positions
@@ -21,12 +22,12 @@
 
 The following **optional** features are to be implemented in the future:
 
-- [ ] Difficulty Modes
+- [x] Difficulty Modes
   - The player will be able to select a difficulty (Easy, Moderate, Hard) which will determine the length of the secret word they need to guess
 
 ## Flowchart & Wireframe
 
-Here is the initial flowchart and wireframe for this project that I created during the planning stage:
+Here is my initial flowchart and wireframe I created during the planning stage:
 
 ![Flowchart](assets/projectFlowchart.png)
 ![Wireframe](assets/projectWireframe.jpeg)
