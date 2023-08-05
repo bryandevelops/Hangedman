@@ -22,16 +22,37 @@ let secretWord;
 // FUNCTIONS //
 ///////////////
 
-function generateSecretWord() {
+function generateSecretWord(difficulty) {
 	let wordFile = 'words-alpha.txt';
 
 	return fetch(wordFile)
 	.then((response) => response.text())
 	.then((text) => {
 		const wordArr = text.split('\r\n');
-		const randNum = Math.trunc(Math.random() * wordArr.length);
-		secretWord = wordArr[randNum].toUpperCase();
-		console.log(secretWord); // temporary
+
+		if (difficulty === 'Random') {
+			const randNum = Math.trunc(Math.random() * wordArr.length);
+			secretWord = wordArr[randNum].toUpperCase();
+		} else if (difficulty === 'Easy') {
+			let randNum = Math.trunc(Math.random() * wordArr.length);
+			while (wordArr[randNum].length > 6) {
+				randNum = Math.trunc(Math.random() * wordArr.length);
+			}
+			secretWord = wordArr[randNum].toUpperCase();
+		} else if (difficulty === 'Moderate') {
+			let randNum = Math.trunc(Math.random() * wordArr.length);
+			while (wordArr[randNum].length < 7 || wordArr[randNum].length > 12) {
+				randNum = Math.trunc(Math.random() * wordArr.length);
+			}
+			secretWord = wordArr[randNum].toUpperCase();
+		} else if (difficulty === 'Hard') {
+			let randNum = Math.trunc(Math.random() * wordArr.length);
+			while (wordArr[randNum].length < 13) {
+				randNum = Math.trunc(Math.random() * wordArr.length);
+			}
+			secretWord = wordArr[randNum].toUpperCase();
+		}
+		console.log(secretWord) // temporary
 	})
 }
 
@@ -58,7 +79,7 @@ function init() {
 function reset() {
 	const wordDefinitionLink = document.getElementById('word-definition-link');
 
-	generateSecretWord()
+	generateSecretWord('Random')
 	clearCanvas()
 	drawBodyPart('gallows')
 	drawBodyPart('head')
@@ -90,6 +111,7 @@ function reset() {
 	resetGameBtn.classList.toggle('hidden')
 	footerEle.classList.toggle('hidden')
 
+	radioBtns[0].checked = true;
 	remainingGuesses = 8;
 	guessedLetters = [];
 	step = 1;
@@ -253,6 +275,7 @@ const startGameBtn = document.getElementById('start-game-btn');
 const resetGameBtn = document.getElementById('reset-btn');
 const modalCloseBtn = document.querySelector(".close-modal");
 const confirmBtn = document.getElementById('confirm-btn');
+const radioBtns = document.querySelectorAll('input');
 const bodyEle = document.querySelector('body');
 const section2Ele = document.getElementById('section-2');
 const footerEle = document.querySelector('footer');
@@ -265,7 +288,7 @@ const canvas = document.getElementById('hangman');
 const context = canvas.getContext("2d");
 
 window.addEventListener('load', () => {
-	generateSecretWord() // for now; difficulty would need to be selected first
+	generateSecretWord('Random')
 	drawBodyPart('gallows')
 	drawBodyPart('head')
 	drawBodyPart('body')
@@ -289,6 +312,10 @@ modalCloseBtn.addEventListener("click", closeModal)
 
 overlay.addEventListener("click", closeModal)
 
+radioBtns.forEach( btn => btn.addEventListener('click', () => {
+	generateSecretWord(btn.id)
+}))
+
 letterContainers.forEach( container => container.addEventListener('click', function(e) {
 	if (e.target.localName === 'li') {
 		const guessedLetter = e.target.textContent;
@@ -306,18 +333,5 @@ letterContainers.forEach( container => container.addEventListener('click', funct
 			drawBodyPart(bodyParts[step++])
 			checkWinOrLose()
 		}
-		console.log(remainingGuesses, guessedLetters); // temporary
 	}
 }));
-
-
-
-/* To Do:
-- Difficulty Modes
-*/
-
-/* Feature Ideas:
-- Difficulty Modes:
-	The harder the difficulty, the longer the words become
-	Note: 'electroencephalographically' is longest word I found (27 chars long)
-*/
